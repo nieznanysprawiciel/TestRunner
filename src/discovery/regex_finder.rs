@@ -1,8 +1,9 @@
 
+use std::path::PathBuf;
+
 use super::finder::Finder;
 use crate::test_info::TestDescription;
-
-use std::path::PathBuf;
+use crate::test_info::TestsConfig;
 
 
 
@@ -16,7 +17,7 @@ pub struct RegexFinder
 impl Finder for RegexFinder
 {
 
-	fn			discover			( &self, root_path: PathBuf ) -> Vec< TestDescription >
+	fn			discover			( &self, root_path: PathBuf, config: &TestsConfig ) -> Vec< TestDescription >
 	{
 		Vec::new()
 	}

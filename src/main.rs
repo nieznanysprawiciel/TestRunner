@@ -23,17 +23,9 @@ fn main()
 	let config = parse_cmd_args();
 
 	let discoverer = discovery::create_finder( "Regex" );
+	let tests_config = test_info::TestsConfig{ working_dir: config.discovery_dir.clone(), ..Default::default() };
 	
-	let to_execute = discoverer.discover( config.discovery_dir );
-
-
-
-	//let test_path = PathBuf::from( "C:\\dupa\\dupa" );
-	//let working_dir = PathBuf::from( "C:\\dupa\\dupa\\work" );
-
-	//let test_desc = test_info::TestDescription{ test_path, working_dir };
-
-    //let to_execute = vec![ test_desc ];
+	let to_execute = discoverer.discover( config.discovery_dir.clone(), &tests_config );
 
 	let runner = execution::Runner::new( to_execute );
 
