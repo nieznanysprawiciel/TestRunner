@@ -3,11 +3,12 @@ use std::path::PathBuf;
 
 
 use super::regex_finder::RegexFinder;
+use crate::test_info::TestDescription;
 
 
 pub trait Finder
 {
-	fn			discover			( &self, root_path: PathBuf );
+	fn			discover			( &self, root_path: PathBuf ) -> Vec< TestDescription >;
 }
 
 

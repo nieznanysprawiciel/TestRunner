@@ -1,6 +1,7 @@
 
 mod execution;
 mod discovery;
+mod test_info;
 
 
 extern crate clap;
@@ -22,15 +23,17 @@ fn main()
 	let config = parse_cmd_args();
 
 	let discoverer = discovery::create_finder( "Regex" );
+	
+	let to_execute = discoverer.discover( config.discovery_dir );
 
 
 
-	let test_path = PathBuf::from( "C:\\dupa\\dupa" );
-	let working_dir = PathBuf::from( "C:\\dupa\\dupa\\work" );
+	//let test_path = PathBuf::from( "C:\\dupa\\dupa" );
+	//let working_dir = PathBuf::from( "C:\\dupa\\dupa\\work" );
 
-	let test_desc = execution::TestDescription{ test_path, working_dir };
+	//let test_desc = test_info::TestDescription{ test_path, working_dir };
 
-    let to_execute = vec![ test_desc ];
+    //let to_execute = vec![ test_desc ];
 
 	let runner = execution::Runner::new( to_execute );
 

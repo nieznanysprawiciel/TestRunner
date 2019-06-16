@@ -1,5 +1,5 @@
 
-use super::test_description::TestDescription;
+use crate::test_info::TestDescription;
 
 
 pub struct Runner
