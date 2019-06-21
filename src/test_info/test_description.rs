@@ -2,6 +2,7 @@
 use std::path::PathBuf;
 
 
+#[derive(PartialEq)]
 pub struct TestDescription
 {
 	pub test_path: PathBuf,
