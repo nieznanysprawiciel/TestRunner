@@ -74,11 +74,25 @@ impl RegexFinder
 // Tests
 
 #[test]
-fn			test_is_test		()
+fn			test_is_test									()
 {
 	let tests_config = TestsConfig{ working_dir: PathBuf::from( "" ), ..Default::default() };
 	let finder = RegexFinder::new();
 
-	assert!( finder.is_test( &PathBuf::from( "working-dir/test-structure1/test_important_things.exe" ), &tests_config ) )
+	assert!( finder.is_test( &PathBuf::from( "working-dir/structure1/test_important_things.exe" ), &tests_config ) );
+	assert!( finder.is_test( &PathBuf::from( "working-dir/structure1/important_things_test.exe" ), &tests_config ) );
+	assert!( finder.is_test( &PathBuf::from( "working-dir/structure1/Test_important_things_test.exe" ), &tests_config ) );
+	assert!( finder.is_test( &PathBuf::from( "working-dir/structure1/Testimportant_things_test.exe" ), &tests_config ) );
+}
+
+
+#[test]
+fn			test_is_test_directory_with_test_in_name		()
+{
+	let tests_config = TestsConfig{ working_dir: PathBuf::from( "" ), ..Default::default() };
+	let finder = RegexFinder::new();
+
+	assert_eq!( finder.is_test( &PathBuf::from( "working-dir/test-structure1/important_things.exe" ), &tests_config ), false );
+	assert_eq!( finder.is_test( &PathBuf::from( "working-dir/structure1-test/important_things.exe" ), &tests_config ), false );
 }
 
