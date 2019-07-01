@@ -9,6 +9,7 @@ extern crate clap;
 
 use clap::{ Arg, App };
 use std::path::PathBuf;
+use std::env;
 
 
 
@@ -44,7 +45,8 @@ fn parse_cmd_args() -> Config
             .help( "Directory to look for tests." ))
         .get_matches();
 
-	let discovery_dir = PathBuf::from( matches.value_of( "d" ).unwrap_or( "" ) );
+	let current_dir = env::current_dir().unwrap();
+	let discovery_dir = PathBuf::from( matches.value_of( "d" ).unwrap_or( current_dir.to_str().unwrap() ) );
 
 	Config{ discovery_dir }
 }

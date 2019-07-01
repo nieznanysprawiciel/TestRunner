@@ -21,6 +21,7 @@ impl Runner
 	//
 	pub fn run			( &self )
 	{
+		println!( "\nRunning test files:" );
 		for test in &self.tests
 		{
 			println!( "{}", test.test_path.display() );

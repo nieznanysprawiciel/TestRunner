@@ -32,9 +32,9 @@ impl Finder for RegexFinder
 	{
 		let mut tests = Vec::new();
 
-		let path = env::current_dir().unwrap();
+		let current_dir = env::current_dir().unwrap();
 
-		println!( "Current working directory: {}", path.display() );
+		println!( "Current working directory: {}", current_dir.display() );
 		println!( "Starting discovery in directory: {}", root_path.display() );
 
 		for entry in WalkDir::new( root_path )
@@ -71,7 +71,7 @@ impl RegexFinder
 	fn			is_test				( &self, path: &Path, config: &TestsConfig ) -> bool
 	{
 		let filename = path.file_name().unwrap().to_str().unwrap().to_lowercase();
-		let test_regex = Regex::new( r"test.*$" ).unwrap();
+		let test_regex = Regex::new( r"test.*.exe$" ).unwrap();
 
 		test_regex.is_match( &filename )
 	}
@@ -105,3 +105,13 @@ fn			test_is_test_directory_with_test_in_name		()
 	assert_eq!( finder.is_test( &PathBuf::from( "working-dir/structure1-test/important_things.exe" ), &tests_config ), false );
 }
 
+
+#[test]
+fn			test_is_test_not_executables					()
+{
+	let tests_config = TestsConfig{ working_dir: PathBuf::from( "" ), ..Default::default() };
+	let finder = RegexFinder::new();
+
+	assert_eq!( finder.is_test( &PathBuf::from( "working-dir/test-structure1/important_things" ), &tests_config ), false );
+	assert_eq!( finder.is_test( &PathBuf::from( "working-dir/test-structure1/important_things.png" ), &tests_config ), false );
+}
