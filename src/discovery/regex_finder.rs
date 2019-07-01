@@ -11,6 +11,8 @@ use crate::test_info::TestsConfig;
 
 use regex::Regex;
 use walkdir::WalkDir;
+use std::env;
+use std::fs;
 
 
 
@@ -30,17 +32,24 @@ impl Finder for RegexFinder
 	{
 		let mut tests = Vec::new();
 
-		 for entry in WalkDir::new( root_path )
+		let path = env::current_dir().unwrap();
+
+		println!( "Current working directory: {}", path.display() );
+		println!( "Starting discovery in directory: {}", root_path.display() );
+
+		for entry in WalkDir::new( root_path )
 				.follow_links( true )
 				.into_iter()
-				.filter_entry( |entry| entry.file_type().is_file() )
 		{
-			let filepath = entry.unwrap().into_path();
-
-			if self.is_test( &filepath, &config )
+			let path = entry.unwrap().into_path();
+			if path.is_file()
 			{
-				let test_description = TestDescription{ working_dir: config.working_dir.clone(), test_path: filepath };
-				tests.push( test_description );
+				println!( "Checking file: {}", path.display() );
+				if self.is_test( &path, &config )
+				{
+					let test_description = TestDescription{ working_dir: config.working_dir.clone(), test_path: path };
+					tests.push( test_description );
+				}
 			}
 		}
 
