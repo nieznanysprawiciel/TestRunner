@@ -39,14 +39,15 @@ fn parse_cmd_args() -> Config
         .version( "0.1.0" )
         .author( "nieznanysprawiciel <nieznany.sprawiciel@gmail.com>" )
         .about( "Application for discovering and running tests in visual studio projects without using build in testing tools." )
-        .arg( Arg::with_name( "dir" )
+        .arg( Arg::with_name( "discovery-dir" )
             .short( "d" )
-            .long( "discovery dir" )
+            .long( "discovery-dir" )
+			.takes_value( true )
             .help( "Directory to look for tests." ))
         .get_matches();
 
 	let current_dir = env::current_dir().unwrap();
-	let discovery_dir = PathBuf::from( matches.value_of( "d" ).unwrap_or( current_dir.to_str().unwrap() ) );
+	let discovery_dir = PathBuf::from( matches.value_of( "discovery-dir" ).unwrap_or( current_dir.to_str().unwrap() ) );
 
 	Config{ discovery_dir }
 }
